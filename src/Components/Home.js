@@ -31,11 +31,12 @@ export default function Home() {
             const signer = provider.getSigner();
            
             let accounts = await window.ethereum.request({ method: 'eth_requestAccounts' });
-            console.log("address := ", accounts[0]);
+            console.log("🚀 ~ file: Home.js:34 ~ connectWallet ~ accounts", accounts);
             setWalletAddress(accounts[0]);
 
             // Creating contract instance
             let contractObj = new ethers.Contract(contractData.contractAddress, contractData.abi, signer);
+            console.log("🚀 ~ file: Home.js:39 ~ connectWallet ~ contractObj", contractObj);
             setContract(contractObj);
         }
     }
