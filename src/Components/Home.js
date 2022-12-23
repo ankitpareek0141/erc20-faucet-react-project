@@ -1,9 +1,9 @@
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import { ethers } from 'ethers';
 import contractData from './abi';
 import Body from './Body';
 
-export default function Home() {
+function Home() {
 
     const [walletAddress, setWalletAddress] = useState('');
     const [provider, setProvider] = useState({});
@@ -57,7 +57,7 @@ export default function Home() {
                         <ul className="navbar-nav me-auto mb-2 mb-lg-0">
                         </ul>
                         <span className="mx-3">{walletAddress}</span>
-                        <button className="btn btn-outline-success" type="submit" id='connectButton' onClick={() => connectWallet()}>Connect</button>
+                        <button className="btn btn-outline-success" type="submit" id='connectButton' onClick={connectWallet}>Connect</button>
                     </div>
                 </div>
             </nav>
@@ -67,3 +67,5 @@ export default function Home() {
         </>
     );
 }
+
+export default Home;

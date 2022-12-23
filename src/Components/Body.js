@@ -1,8 +1,9 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import Swal from 'sweetalert2';
 
 function Body(props) {
     const [data, setData] = useState({ walletAddress: '', amount: 0 });
+    const [allTransactions, setAllTransactions] = useState([]);
 
     function displayPopUp(msgTitle, msgBody, iconType) {
         Swal.fire({
@@ -13,11 +14,23 @@ function Body(props) {
         });  
     }
 
+    useEffect(() => {
+        fetch('http://localhost:8000/getUserTransactions')
+        .then((response) => response.json())
+        .then((data) => {
+            let aTransactions = data.data;
+            setAllTransactions(aTransactions);
+        })
+        .catch((error) => {
+            console.log("error := ", error);
+        })
+    }, [])
+
     async function handelSubmit(e) {
         try {
             e.preventDefault();
             document.getElementById("submitBtn").disabled = true;
-            // console.log('=> ', data);
+
             if(!Object.keys(props.contractObj).length) {
                 displayPopUp(
                     "Attention!",
@@ -128,70 +141,22 @@ function Body(props) {
                             </tr>
                         </thead>
                         <tbody>
-                            <tr className="table-light">
-                                <td>10000</td>
-                                <td>0x1511a5fce941cf6724d449c10227fdb8450ec5cd884a8973eaeb82e43d960626</td>
-                            </tr>
-                            <tr className="table-light">
-                                <td>200</td>
-                                <td>0x1511a5fce941cf6724d449c10227fdb8450ec5cd884a8973eaeb82e43d960626</td>
-                            </tr>
-                            <tr className="table-light">
-                                <td>45000</td>
-                                <td>0x1511a5fce941cf6724d449c10227fdb8450ec5cd884a8973eaeb82e43d960626</td>
-                            </tr>
-                            <tr className="table-light">
-                                <td>45000</td>
-                                <td>0x1511a5fce941cf6724d449c10227fdb8450ec5cd884a8973eaeb82e43d960626</td>
-                            </tr>
-                            <tr className="table-light">
-                                <td>45000</td>
-                                <td>0x1511a5fce941cf6724d449c10227fdb8450ec5cd884a8973eaeb82e43d960626</td>
-                            </tr>
-                            <tr className="table-light">
-                                <td>45000</td>
-                                <td>0x1511a5fce941cf6724d449c10227fdb8450ec5cd884a8973eaeb82e43d960626</td>
-                            </tr>
-                            <tr className="table-light">
-                                <td>45000</td>
-                                <td>0x1511a5fce941cf6724d449c10227fdb8450ec5cd884a8973eaeb82e43d960626</td>
-                            </tr>
-                            <tr className="table-light">
-                                <td>45000</td>
-                                <td>0x1511a5fce941cf6724d449c10227fdb8450ec5cd884a8973eaeb82e43d960626</td>
-                            </tr>
-                            <tr className="table-light">
-                                <td>45000</td>
-                                <td>0x1511a5fce941cf6724d449c10227fdb8450ec5cd884a8973eaeb82e43d960626</td>
-                            </tr>
-                            <tr className="table-light">
-                                <td>45000</td>
-                                <td>0x1511a5fce941cf6724d449c10227fdb8450ec5cd884a8973eaeb82e43d960626</td>
-                            </tr>
-                            <tr className="table-light">
-                                <td>45000</td>
-                                <td>0x1511a5fce941cf6724d449c10227fdb8450ec5cd884a8973eaeb82e43d960626</td>
-                            </tr>
-                            <tr className="table-light">
-                                <td>45000</td>
-                                <td>0x1511a5fce941cf6724d449c10227fdb8450ec5cd884a8973eaeb82e43d960626</td>
-                            </tr>
-                            <tr className="table-light">
-                                <td>45000</td>
-                                <td>0x1511a5fce941cf6724d449c10227fdb8450ec5cd884a8973eaeb82e43d960626</td>
-                            </tr>
-                            <tr className="table-light">
-                                <td>45000</td>
-                                <td>0x1511a5fce941cf6724d449c10227fdb8450ec5cd884a8973eaeb82e43d960626</td>
-                            </tr>
-                            <tr className="table-light">
-                                <td>45000</td>
-                                <td>0x1511a5fce941cf6724d449c10227fdb8450ec5cd884a8973eaeb82e43d960626</td>
-                            </tr>
-                            <tr className="table-light">
-                                <td>45000</td>
-                                <td>0x1511a5fce941cf6724d449c10227fdb8450ec5cd884a8973eaeb82e43d960626</td>
-                            </tr>
+                            {
+                                allTransactions.length == 0 ? (
+                                    <h3 className="text-center fw-lighter">
+                                        No transactions yet!
+                                    </h3>
+                                ) : (
+                                    allTransactions.map((transaction) => {
+                                        return (
+                                            <tr>
+                                                <td scope="col">{transaction.nAmount}</td>
+                                                <td scope="col">{transaction.sTransactionHash}</td>
+                                            </tr>
+                                        );
+                                    })
+                                )
+                            }
                         </tbody>
                     </table>
                 </div>
