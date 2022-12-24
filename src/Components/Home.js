@@ -24,7 +24,7 @@ function Home() {
             let network = await provider.getNetwork();
             console.log("ChainId := ", network.chainId);
 
-            if(network != 97) {
+            if(network.chainId != 97) {
                 Swal.fire({
                     title: "Invalid Chain",
                     text: "You are on another chain, Please switch to BSC Testnet.",

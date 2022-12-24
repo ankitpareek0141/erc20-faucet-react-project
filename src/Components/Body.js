@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
 import Swal from 'sweetalert2';
+import { ethers } from 'ethers';
 
 function Body(props) {
     const [data, setData] = useState({ walletAddress: '', amount: 0 });
@@ -66,13 +67,24 @@ function Body(props) {
 
             let contract = props.contractObj;
 
+            var currentFee = 0;
+            const owner = await contract.owner();
+            const currentLimitInWei = await contract.max_mint_limit();
+            const currentLimitInEth = ethers.utils.formatEther(currentLimitInWei);
+
+            if(data.amount > currentLimitInEth && data.walletAddress.toLowerCase() != owner.toLowerCase()) currentFee = await contract.fee();
+
             let gasEstimated = await contract.estimateGas.mint(
                 data.walletAddress,
-                data.amount
+                data.amount, {
+                    value: currentFee
+                }
             );
             console.log('gas := ', Number(gasEstimated._hex));
 
-            let txn = await contract.mint(data.walletAddress, data.amount);
+            let txn = await contract.mint(data.walletAddress, data.amount, {
+                value: currentFee
+            });
             console.log('txn ', txn);
 
             fetch('http://localhost:8000/createTransaction', {

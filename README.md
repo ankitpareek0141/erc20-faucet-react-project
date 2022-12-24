@@ -1,6 +1,8 @@
 # Getting Started with the ERC20 Faucet Project
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+This Dapp provides the ERC20 token as per your need which you can use in your projects or for any other testing purpose,
+You can add your wallet address and amount of token to want to get and click on submit button to intiate the transaction. Make sure
+the Dapp have a some limit for withdrawing the tokens so if you want to withdraw above than that then you will be charged some fee amount eg:- 0.001 ETH which can also be change by the admin also.
 
 ### What you need to do before running the project
 

@@ -1,5 +1,5 @@
 const contractData = {
-    contractAddress: "0x58f50610c04c849eA4D3215Ae6E422C97C92ca28",
+    contractAddress: "0x5413328B28CaCa3B47748566F62DE7670d2F648a",
     abi: [
         {
             "inputs": [
