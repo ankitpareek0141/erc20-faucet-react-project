@@ -6,10 +6,10 @@ This project was bootstrapped with [Create React App](https://github.com/faceboo
 
 You need to setup the environment variables in '.env' file which reside in the project root folder.
 ```sh
-PORT = Enter you port number
+PORT = Enter the server port number, it should be different from the react server
 DB_URL = Enter your DB URL
-PVT_KEY = Enter your private key
-BINANCE_RPC_URL = Enter the binance RPC URL
+PVT_KEY = Enter account private key
+BINANCE_RPC_URL = Enter binance RPC URL
 ```
 
 ### Now your project has setup, follow the commands below to run the project
