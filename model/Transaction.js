@@ -14,6 +14,10 @@ const transactionSchema = new Schema(
 		nAmount: {
 			type: Number,
             required: true
+		},
+		nStatus: {
+			type: Number,
+			enum: [-1, 0, 1] // Failed: -1, Pending: 0, Success: 1
 		}
 	},
 	{ timestamps: true },

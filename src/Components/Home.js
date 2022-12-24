@@ -31,19 +31,15 @@ function Home() {
             const signer = provider.getSigner();
            
             let accounts = await window.ethereum.request({ method: 'eth_requestAccounts' });
-            console.log("🚀 ~ file: Home.js:34 ~ connectWallet ~ accounts", accounts);
+            console.log("🚀 ~ file: Home.js:34 ~ connectWallet ~ accounts", accounts[0]);
             setWalletAddress(accounts[0]);
 
             // Creating contract instance
             let contractObj = new ethers.Contract(contractData.contractAddress, contractData.abi, signer);
-            console.log("🚀 ~ file: Home.js:39 ~ connectWallet ~ contractObj", contractObj);
+            // console.log("🚀 ~ file: Home.js:39 ~ connectWallet ~ contractObj", contractObj);
             setContract(contractObj);
         }
     }
-
-    // useEffect(() => {
-    //     if(provider) connectWallet();
-    // }, []);
 
     return (
         <>
@@ -58,11 +54,12 @@ function Home() {
                         </ul>
                         <span className="mx-3">{walletAddress}</span>
                         <button className="btn btn-outline-success" type="submit" id='connectButton' onClick={connectWallet}>Connect</button>
+
                     </div>
                 </div>
             </nav>
             <div className='container-fluid w-50 mt-5'>
-                <Body contractObj = {contract} />
+                <Body contractObj = {contract} walletAddress = {walletAddress}/>
             </div>
         </>
     );
