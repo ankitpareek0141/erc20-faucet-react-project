@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { ethers } from 'ethers';
 import contractData from './abi';
 import Body from './Body';
+import Swal from 'sweetalert2';
 
 function Home() {
 
@@ -21,8 +22,17 @@ function Home() {
             // await provider.send("eth_requestAccounts", []);
 
             let network = await provider.getNetwork();
-            console.log(network.chainId);
+            console.log("ChainId := ", network.chainId);
 
+            if(network != 97) {
+                Swal.fire({
+                    title: "Invalid Chain",
+                    text: "You are on another chain, Please switch to BSC Testnet.",
+                    icon: 'error',
+                    confirmButtonText: 'Ok'
+                });
+                return;
+            }
             // @TODO: Check if user connected to specific network
 
             // The MetaMask plugin also allows signing transactions to
