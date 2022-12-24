@@ -12,6 +12,7 @@ PORT = Enter the server port number, it should be different from the react serve
 DB_URL = Enter your DB URL
 PVT_KEY = Enter account private key
 BINANCE_RPC_URL = Enter binance RPC URL
+REACT_APP_PORT = Enter the server port again to access in the react client
 ```
 
 ### Now your project has setup, follow the commands below to run the project

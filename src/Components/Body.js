@@ -6,6 +6,7 @@ function Body(props) {
     const [data, setData] = useState({ walletAddress: '', amount: 0 });
     const [allTransactions, setAllTransactions] = useState([]);
     const [refresh, setRefresh] = useState(0);
+    const PORT = process.env.REACT_APP_PORT;
 
     function displayPopUp(msgTitle, msgBody, iconType) {
         Swal.fire({
@@ -18,7 +19,7 @@ function Body(props) {
     }
 
     useEffect(() => {
-        fetch('http://localhost:8000/getUserTransactions')
+        fetch(`http://localhost:${PORT}/getUserTransactions`)
             .then((response) => response.json())
             .then((data) => {
                 let aTransactions = data.data;
@@ -87,7 +88,7 @@ function Body(props) {
             });
             console.log('txn ', txn);
 
-            fetch('http://localhost:8000/createTransaction', {
+            fetch(`http://localhost:${PORT}/createTransaction`, {
                 method: "POST",
                 headers: {
                     'Content-Type': 'application/json',
@@ -119,7 +120,7 @@ function Body(props) {
             let receipt = await txn.wait();
             console.log("receipt := ", receipt);
             if (receipt.status) {
-                fetch('http://localhost:8000/updateTransactionStatus', {
+                fetch(`http://localhost:${PORT}/updateTransactionStatus`, {
                     method: "POST",
                     headers: {
                         'Content-Type': 'application/json',
@@ -148,7 +149,7 @@ function Body(props) {
                         );
                     })
             } else {
-                fetch('http://localhost:8000/updateTransactionStatus', {
+                fetch(`http://localhost:${PORT}/updateTransactionStatus`, {
                     method: "POST",
                     headers: {
                         'Content-Type': 'application/json',
