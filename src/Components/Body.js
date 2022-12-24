@@ -13,6 +13,7 @@ function Body(props) {
             icon: iconType,
             confirmButtonText: 'Ok'
         });
+        document.getElementById("submitBtn").disabled = false;
     }
 
     useEffect(() => {
@@ -43,7 +44,23 @@ function Body(props) {
                     'Please connect your metamask wallet',
                     'info'
                 );
-                document.getElementById("submitBtn").disabled = false;
+                return;
+            }
+
+            if(data.walletAddress.length == 0) {
+                displayPopUp(
+                    "Error!",
+                    'Please enter wallet address!',
+                    'error'
+                );
+                return;
+            }
+            if(!data.amount) {
+                displayPopUp(
+                    "Error!",
+                    'Please enter some amount!',
+                    'error'
+                );
                 return;
             }
 
@@ -149,11 +166,10 @@ function Body(props) {
                         );
                     })
             }
-            document.getElementById("submitBtn").disabled = false;
         } catch (error) {
             console.log('catch error := ', error);
-            let errorMessage = error.error?.data?.message;
-            if (errorMessage.includes("execution reverted:")) {
+            if (error.error && error.error.data && error.error?.data?.message.includes("execution reverted:")) {
+                let errorMessage = error.error?.data?.message;
                 let message = errorMessage.replace('execution reverted: ', '');
                 displayPopUp(
                     "Error!",
@@ -161,9 +177,18 @@ function Body(props) {
                     'error'
                 );
             } else {
-                alert("Something went wrong, Please try again later!");
+                let message;
+                if(error.code == 'ACTION_REJECTED') {
+                    message = "User rejected the transaction!";
+                } else {
+                    message = "Something went wrong, Please try again later!";
+                }
+                displayPopUp(
+                    "Error!",
+                    message,
+                    'error'
+                );
             }
-            document.getElementById("submitBtn").disabled = false;
         }
     }
 

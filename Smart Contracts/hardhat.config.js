@@ -16,7 +16,6 @@ module.exports = {
         `${process.env.PVT_KEY}`,
       ],
     },
-
     matic: {
       url: "https://matic-testnet-archive-rpc.bwarelabs.com",
       chainId: 80001,
@@ -24,5 +23,13 @@ module.exports = {
         `${process.env.PVT_KEY}`
       ],
     },
-  }
+  },
+  abiExporter: {
+    path: "./abi/",
+    runOnCompile: true,
+    clear: true,
+    flat: true,
+    spacing: 2,
+    pretty: false,
+  },
 };
