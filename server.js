@@ -23,9 +23,12 @@ mongoose
         throw error;
     });
 
-app.get('/getUserTransactions', async (req, res) => {
+app.post('/getUserTransactions', async (req, res) => {
     try {
-        let aTransaction = await Transaction.find({}, {
+        console.log('body := ', req.body);
+        let aTransaction = await Transaction.find({
+            sWalletAddress: req.body.sWalletAddress
+        }, {
             sTransactionHash: 1,
             nAmount: 1,
             nStatus: 1
