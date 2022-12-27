@@ -1,8 +1,8 @@
 import { useState, useEffect } from 'react';
 import { ethers } from 'ethers';
-import contractData from './abi';
 import Swal from 'sweetalert2';
 import List from './List';
+import contractData from './abi';
 
 function Home() {
     const [walletAddress, setWalletAddress] = useState('');
@@ -13,7 +13,6 @@ function Home() {
     const [refresh, setRefresh] = useState(0);
 
     const PORT = process.env.REACT_APP_PORT;
-    var addr;
 
     useEffect(() => {
         if (provider) {
