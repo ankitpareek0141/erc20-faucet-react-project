@@ -13,29 +13,11 @@ function Home() {
     const [refresh, setRefresh] = useState(0);
 
     const PORT = process.env.REACT_APP_PORT;
+    var addr;
 
     useEffect(() => {
         if (provider) {
             connectWallet();
-            fetch(`http://localhost:${PORT}/getUserTransactions`, {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify({
-                    sWalletAddress:
-                        '0x9e483a7bde866c9a0681a63cf83206f2104f4fa3',
-                }),
-            })
-                .then((response) => response.json())
-                .then((data) => {
-                    let aTransactions = data.data;
-                    setAllTransactions(aTransactions);
-                })
-                .catch((error) => {
-                    console.log('error := ', error);
-                    displayPopUp('Error!', 'Internal server error!', 'error');
-                });
         }
     }, [refresh]);
 
@@ -67,12 +49,17 @@ function Home() {
             const currentLimitInWei = await contract.max_mint_limit();
             const currentLimitInEth =
                 ethers.utils.formatEther(currentLimitInWei);
+            console.log(
+                '🚀 ~ file: Home.js:51 ~ handelSubmit ~ currentLimitInEth',
+                currentLimitInEth
+            );
 
             if (
-                data.amount > currentLimitInEth &&
+                data.amount > Number(currentLimitInEth) &&
                 data.walletAddress.toLowerCase() != owner.toLowerCase()
-            )
+            ) {
                 currentFee = await contract.fee();
+            }
 
             let gasEstimated = await contract.estimateGas.mint(
                 data.walletAddress,
@@ -240,13 +227,25 @@ function Home() {
             console.log('contractObj := ', contractObj);
             setContract(contractObj);
 
-            window.ethereum.on('accountChanged', (accounts) => {
-                console.log(
-                    '🚀 ~ file: Home.js:60 ~ window.ethereum.on ~ accounts[0]',
-                    accounts[0]
-                );
-                window.location.reload();
-            });
+            fetch(`http://localhost:${PORT}/getUserTransactions`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    sWalletAddress: accounts[0],
+                }),
+            })
+                .then((response) => response.json())
+                .then((data) => {
+                    let aTransactions = data.data;
+                    setAllTransactions(aTransactions);
+                    // allTransactions = aTransactions;
+                })
+                .catch((error) => {
+                    console.log('error := ', error);
+                    displayPopUp('Error!', 'Internal server error!', 'error');
+                });
         }
     }
 
